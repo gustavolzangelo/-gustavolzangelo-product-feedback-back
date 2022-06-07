@@ -1,3 +1,4 @@
+import { PublicRoute } from '@common/decorators/is-public-route.decorator'
 import { UserIdentifiers } from '@modules/user/types/consts/user-identifiers.const'
 import { UserCreateDto } from '@modules/user/types/dto/user-create.dto'
 import { UserUpdateDto } from '@modules/user/types/dto/user-update.dto'
@@ -69,6 +70,7 @@ export class UserController {
     return res
   }
 
+  @PublicRoute()
   @Post('/login')
   async login(
     @Res({ passthrough: true }) res: Response,

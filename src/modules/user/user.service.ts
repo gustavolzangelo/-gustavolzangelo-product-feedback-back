@@ -50,7 +50,6 @@ export class UserService implements IUserService {
   }
 
   async login(params: { userLoginDto: UserLoginDto }): Promise<AccountJwtDTO> {
-    console.log(params.userLoginDto)
     const user = await this.userRepository.findOne({
       userFilterDTO: { usernames: [params.userLoginDto.username] },
     })
@@ -67,6 +66,8 @@ export class UserService implements IUserService {
     if (!isValidPassword) {
       throw UserIdentifiers.EXCEPTIONS.UNAUTHORIZED()
     }
+
+    console.log(params.userLoginDto)
 
     return {
       accessToken: this.jwtService.sign({

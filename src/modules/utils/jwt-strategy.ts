@@ -46,8 +46,6 @@ export class JwtPassportStrategy extends PassportStrategy(Strategy, 'jwt') {
       userFilterDTO: { userIds: [payload.sub] },
     })
 
-    console.log(payload)
-
     if (!user) {
       throw UserIdentifiers.EXCEPTIONS.UNAUTHORIZED()
     }

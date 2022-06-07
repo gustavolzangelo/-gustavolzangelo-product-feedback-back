@@ -11,13 +11,6 @@ import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
 
 @Module({
-  controllers: [UserController],
-  providers: [
-    { provide: UserIdentifiers.IUserService, useClass: UserService },
-    { provide: UserIdentifiers.IUserRepository, useClass: UserRepository },
-    { provide: UserIdentifiers.IUserMapper, useClass: UserMapper },
-    JwtPassportStrategy,
-  ],
   imports: [
     PrismaModule,
     ConfigModule,
@@ -28,6 +21,13 @@ import { PassportModule } from '@nestjs/passport'
       // TODO: use private-public key pair instead simple string secret
       useFactory: (config: ConfigService) => config.get('auth'),
     }),
+  ],
+  controllers: [UserController],
+  providers: [
+    { provide: UserIdentifiers.IUserService, useClass: UserService },
+    { provide: UserIdentifiers.IUserRepository, useClass: UserRepository },
+    { provide: UserIdentifiers.IUserMapper, useClass: UserMapper },
+    JwtPassportStrategy,
   ],
 })
 export class UserModule {}
