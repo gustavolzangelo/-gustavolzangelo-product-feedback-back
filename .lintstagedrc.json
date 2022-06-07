@@ -1,0 +1,9 @@
+{
+  "**/*.{js,jsx,ts,tsx}": [
+    "eslint --fix --max-warnings=1",
+    "prettier --ignore-path .prettierignore --write"
+  ],
+  "**/*.{json,md,mdx,css,html,yml,yaml,scss}": [
+    "prettier --ignore-path .prettierignore --write"
+  ]
+}
