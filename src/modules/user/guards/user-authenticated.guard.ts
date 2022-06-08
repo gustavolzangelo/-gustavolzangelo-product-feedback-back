@@ -1,10 +1,6 @@
 import { IS_PUBLIC_ROUTE_KEY } from '@common/decorators/is-public-route.decorator'
 import { UserIdentifiers } from '@modules/user/types/consts/user-identifiers.const'
-import {
-  ExecutionContext,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common'
+import { ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { AuthGuard } from '@nestjs/passport'
 

@@ -1,4 +1,4 @@
-import { CustomException } from '@common/exceptions/custom.exception'
+import { CustomException } from '@common/types/exceptions/custom.exception'
 import { HttpStatus } from '@nestjs/common'
 
 export const UserIdentifiers = {

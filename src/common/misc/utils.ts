@@ -32,3 +32,7 @@ export const _compareHash = (params: {
 
   return bcrypt.compareSync(text || 'text', hash || 'hash')
 }
+
+export const _isArray = (params: { obj: any }): boolean => {
+  return _.isArray(params.obj)
+}
