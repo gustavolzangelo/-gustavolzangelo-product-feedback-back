@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    container_name: integration-tests-prisma
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=tests
+    ports:
+      - '5435:5432'
+volumes:
+  db:
+    driver: local

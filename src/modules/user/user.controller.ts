@@ -1,6 +1,8 @@
 import { PublicRoute } from '@common/decorators/is-public-route.decorator'
 import { UserIdentifiers } from '@modules/user/types/consts/user-identifiers.const'
+import { UserJwtDTO } from '@modules/user/types/dto/user-jwt.dto'
 import { UserCreateDto } from '@modules/user/types/dto/user-create.dto'
+import { UserLoginDto } from '@modules/user/types/dto/user-login.dto'
 import { UserUpdateDto } from '@modules/user/types/dto/user-update.dto'
 import { UserDTO } from '@modules/user/types/dto/user.dto'
 import { IUserService } from '@modules/user/types/interfaces/user-service.interface'
@@ -18,8 +20,6 @@ import {
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { CookieOptions, Response } from 'express'
-import { AccountJwtDTO } from './types/dto/account-jwt.dto'
-import { UserLoginDto } from './types/dto/user-login.dto'
 
 @Controller('users')
 export class UserController {
@@ -75,7 +75,7 @@ export class UserController {
   async login(
     @Res({ passthrough: true }) res: Response,
     @Body() userLoginDto: UserLoginDto
-  ): Promise<AccountJwtDTO> {
+  ): Promise<UserJwtDTO> {
     const userJwtDto = await this.userService.login({ userLoginDto })
 
     res.status(HttpStatus.OK)
@@ -88,7 +88,7 @@ export class UserController {
   }
 
   @Get()
-  findAll(): Promise<UserDTO[]> {
+  async findAll(): Promise<UserDTO[]> {
     return this.userService.findAll()
   }
 
@@ -102,8 +102,10 @@ export class UserController {
 
     if (!user) {
       res.status(HttpStatus.NOT_FOUND)
+      return
     }
 
+    res.status(HttpStatus.OK)
     return user
   }
 
@@ -113,8 +115,10 @@ export class UserController {
     @Param('id') id: string
   ) {
     const user = await this.userService.deleteOne({ userId: id })
-    if (user) {
+    if (!user) {
       res.status(HttpStatus.NOT_FOUND)
+      return
     }
+    res.status(HttpStatus.OK)
   }
 }

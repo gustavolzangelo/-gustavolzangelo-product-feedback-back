@@ -1,6 +1,6 @@
 import { _compareHash, _createHash, _getCurrentDate } from '@common/misc/utils'
 import { UserIdentifiers } from '@modules/user/types/consts/user-identifiers.const'
-import { AccountJwtDTO } from '@modules/user/types/dto/account-jwt.dto'
+import { UserJwtDTO } from '@modules/user/types/dto/user-jwt.dto'
 import { UserCreateDto } from '@modules/user/types/dto/user-create.dto'
 import { UserLoginDto } from '@modules/user/types/dto/user-login.dto'
 import { UserUpdateDto } from '@modules/user/types/dto/user-update.dto'
@@ -49,7 +49,7 @@ export class UserService implements IUserService {
     return this.mapper.toDto({ user: userCreated })
   }
 
-  async login(params: { userLoginDto: UserLoginDto }): Promise<AccountJwtDTO> {
+  async login(params: { userLoginDto: UserLoginDto }): Promise<UserJwtDTO> {
     const user = await this.userRepository.findOne({
       userFilterDTO: { usernames: [params.userLoginDto.username] },
     })
@@ -67,8 +67,6 @@ export class UserService implements IUserService {
       throw UserIdentifiers.EXCEPTIONS.UNAUTHORIZED()
     }
 
-    console.log(params.userLoginDto)
-
     return {
       accessToken: this.jwtService.sign({
         sub: user.id,
@@ -83,7 +81,7 @@ export class UserService implements IUserService {
   updateOne(params: {
     userId: string
     userUpdateDto: UserUpdateDto
-  }): Promise<UserDTO> {
+  }): Promise<UserDTO | void> {
     const userSearched = this.userRepository.findOne({
       userFilterDTO: { userIds: [...params.userId] },
     })
@@ -98,7 +96,7 @@ export class UserService implements IUserService {
     })
   }
 
-  deleteOne(params: { userId: string }): Promise<UserDTO> {
+  deleteOne(params: { userId: string }): Promise<UserDTO | void> {
     const userSearched = this.userRepository.findOne({
       userFilterDTO: { userIds: [...params.userId] },
     })
