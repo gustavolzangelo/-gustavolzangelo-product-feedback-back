@@ -9,6 +9,7 @@ export default registerAs('common', () => ({
   },
 
   isDev: () => process.env.BUILD_ENV === 'dev',
+  isTest: () => process.env.BUILD_ENV === 'test',
   isStg: () => process.env.BUILD_ENV === 'stg',
   isPrd: () => process.env.BUILD_ENV === 'prd',
 }))

@@ -1,7 +1,9 @@
 import { _compareHash, _createHash, _getCurrentDate } from '@common/misc/utils'
+import { IResultsSet } from '@common/types/interfaces/result-set.interface'
 import { UserIdentifiers } from '@modules/user/types/consts/user-identifiers.const'
-import { UserJwtDTO } from '@modules/user/types/dto/user-jwt.dto'
 import { UserCreateDto } from '@modules/user/types/dto/user-create.dto'
+import { UserFilterDTO } from '@modules/user/types/dto/user-filter.dto'
+import { UserJwtDTO } from '@modules/user/types/dto/user-jwt.dto'
 import { UserLoginDto } from '@modules/user/types/dto/user-login.dto'
 import { UserUpdateDto } from '@modules/user/types/dto/user-update.dto'
 import { UserDTO } from '@modules/user/types/dto/user.dto'
@@ -20,7 +22,7 @@ export class UserService implements IUserService {
     private userRepository: IUserRepository,
 
     @Inject(UserIdentifiers.IUserMapper)
-    private mapper: IUserMapper,
+    private userMapper: IUserMapper,
 
     private jwtService: JwtService
   ) {}
@@ -46,7 +48,7 @@ export class UserService implements IUserService {
       userEntity: newUser,
     })
 
-    return this.mapper.toDto({ user: userCreated })
+    return this.userMapper.toDto({ user: userCreated })
   }
 
   async login(params: { userLoginDto: UserLoginDto }): Promise<UserJwtDTO> {
@@ -74,8 +76,19 @@ export class UserService implements IUserService {
     }
   }
 
-  findAll(): Promise<UserDTO[]> {
-    return this.userRepository.findAll({ userFilterDTO: {} })
+  async findAll(params: {
+    userFilterDTO: UserFilterDTO
+  }): Promise<IResultsSet<UserDTO>> {
+    const result = await this.userRepository.findAll({
+      userFilterDTO: params.userFilterDTO,
+    })
+
+    return {
+      pagination: result.pagination,
+      items: await Promise.all(
+        result.items.map((user) => this.userMapper.toDto({ user }))
+      ),
+    }
   }
 
   updateOne(params: {

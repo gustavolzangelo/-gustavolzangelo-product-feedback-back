@@ -1,7 +1,9 @@
 import { PublicRoute } from '@common/decorators/is-public-route.decorator'
+import { IResultsSet } from '@common/types/interfaces/result-set.interface'
 import { UserIdentifiers } from '@modules/user/types/consts/user-identifiers.const'
-import { UserJwtDTO } from '@modules/user/types/dto/user-jwt.dto'
 import { UserCreateDto } from '@modules/user/types/dto/user-create.dto'
+import { UserFilterDTO } from '@modules/user/types/dto/user-filter.dto'
+import { UserJwtDTO } from '@modules/user/types/dto/user-jwt.dto'
 import { UserLoginDto } from '@modules/user/types/dto/user-login.dto'
 import { UserUpdateDto } from '@modules/user/types/dto/user-update.dto'
 import { UserDTO } from '@modules/user/types/dto/user.dto'
@@ -16,6 +18,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Res,
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
@@ -40,6 +43,7 @@ export class UserController {
     this.cookieMaxAge = this.config.get('auth.cookieMaxAge')
   }
 
+  @PublicRoute()
   @Post()
   async create(@Body() createUserDto: UserCreateDto): Promise<UserDTO> {
     return this.userService.create({ userCreateDto: createUserDto })
@@ -87,9 +91,12 @@ export class UserController {
     return userJwtDto
   }
 
+  @PublicRoute()
   @Get()
-  async findAll(): Promise<UserDTO[]> {
-    return this.userService.findAll()
+  async findAll(
+    @Query() userFilterDTO: UserFilterDTO
+  ): Promise<IResultsSet<UserDTO>> {
+    return this.userService.findAll({ userFilterDTO })
   }
 
   @Patch(':id')

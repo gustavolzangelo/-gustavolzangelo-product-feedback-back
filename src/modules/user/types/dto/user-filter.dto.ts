@@ -1,7 +1,8 @@
+import { BaseFilterDTO } from '@common/types/dto/base-filter.dto'
 import { Transform } from 'class-transformer'
 import { IsArray, IsOptional, IsUUID } from 'class-validator'
 
-export class UserFilterDTO {
+export class UserFilterDTO extends BaseFilterDTO {
   @IsOptional()
   @IsArray()
   @IsUUID('all', { each: true })

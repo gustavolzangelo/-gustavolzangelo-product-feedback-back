@@ -1,9 +1,9 @@
 version: '3.8'
 services:
   db:
+    container_name: product-feedback-back-test-db
     image: postgres:14.1-alpine
     restart: always
-    container_name: integration-tests-prisma
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres

@@ -15,15 +15,14 @@
     "prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "lint-staged": "lint-staged",
-    "docker-test:up": "docker-compose -f docker-compose.integration.yml up -d",
-    "docker-test:down": "docker-compose -f docker-compose.integration.yml down",
-    "test": "jest -i",
-    "test-integration": "yarn docker-test:up && sleep 5 && dotenv -e .env.test -- yarn prisma migrate deploy && jest -i",
+    "docker-test:up": "docker-compose -f docker-compose.test.yml up -d",
+    "docker-test:down": "docker-compose -f docker-compose.test.yml down",
+    "test": "cross-env NODE_ENV=test BUILD_ENV=test jest -i",
     "test-unit:only-changed": "jest --onlyChanged",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:e2e": "yarn docker-test:up && sleep 5 && dotenv -e .env.test -- npx prisma migrate deploy && cross-env NODE_ENV=test BUILD_ENV=test jest --config ./jest-e2e.json",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -106,6 +105,9 @@
       "^@common/(.*)$": "<rootDir>/common/$1"
     },
     "coverageDirectory": "../coverage",
+    "testPathIgnorePatterns": [
+      "<rootDir>/tests/e2e/"
+    ],
     "testEnvironment": "node"
   }
 }

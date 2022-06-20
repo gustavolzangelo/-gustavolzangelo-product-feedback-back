@@ -13,6 +13,11 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 @Module({
   imports: [
     ConfigModule.forRoot({
+      envFilePath: `${
+        process.env.BUILD_ENV === 'prd'
+          ? '.env'
+          : '.env.' + process.env.BUILD_ENV
+      }`,
       load: [commonConfig, authConfig],
     }),
     PrismaModule,
