@@ -33,6 +33,8 @@ model Like {
   userId            String
   productFeedback   ProductFeedback @relation(fields: [productFeedbackId], references: [id])
   productFeedbackId String
+  createdAt         DateTime        @default(now()) @map("created_at")
+  modifiedAt        DateTime        @default(now()) @map("modified_at")
 
   @@unique([userId, productFeedbackId], map: "user_id_product_feedback_id_unique")
   @@map("likes")
