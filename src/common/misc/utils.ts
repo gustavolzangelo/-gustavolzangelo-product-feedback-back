@@ -38,6 +38,26 @@ export const _isArray = (params: { obj: any }): boolean => {
   return _.isArray(params.obj)
 }
 
+export const _envelopeDTO = (params: {
+  status: number
+  data?: any
+  errors?: any[]
+}) => {
+  const returnData = (data: any) => {
+    if (data && data.pagination) {
+      return { data: data.items, pagination: data.pagination }
+    }
+    if (data) {
+      return { data }
+    }
+  }
+  return {
+    status: params.status,
+    ...returnData(params.data),
+    ...(params.errors && { errors: params.errors }),
+  }
+}
+
 export const _calcLimitAndOffset = (params: {
   pageNumber?: number
   itemsPerPage?: number

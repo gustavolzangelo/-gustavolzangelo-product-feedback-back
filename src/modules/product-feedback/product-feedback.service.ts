@@ -6,10 +6,10 @@ import { ProductFeedbackCreateDto } from '@modules/product-feedback/types/dto/pr
 import { ProductFeedbackFilterDto } from '@modules/product-feedback/types/dto/product-feedback-filter.dto'
 import { ProductFeedbackUpdateDto } from '@modules/product-feedback/types/dto/product-feedback-update.dto'
 import { ProductFeedbackDto } from '@modules/product-feedback/types/dto/product-feedback.dto'
+import { IProductFeedbackEntity } from '@modules/product-feedback/types/interfaces/product-feedback-entity.interface'
 import { IProductFeedbackRepository } from '@modules/product-feedback/types/interfaces/product-feedback-repository.interface'
 import { IProductFeedbackService } from '@modules/product-feedback/types/interfaces/product-feedback-service.interface.dto'
 import { Inject } from '@nestjs/common'
-import { IProductFeedbackEntity } from '@modules/product-feedback/types/interfaces/product-feedback-entity.interface'
 
 export class ProductFeedbackService implements IProductFeedbackService {
   constructor(

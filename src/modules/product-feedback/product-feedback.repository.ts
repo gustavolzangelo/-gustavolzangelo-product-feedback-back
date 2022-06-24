@@ -2,8 +2,8 @@ import { _calcLimitAndOffset, _pagination } from '@common/misc/utils'
 import { PrismaService } from '@common/prisma/prisma.service'
 import { IResultsSet } from '@common/types/interfaces/result-set.interface'
 import { ProductFeedbackFilterDto } from '@modules/product-feedback/types/dto/product-feedback-filter.dto'
+import { IProductFeedbackEntity } from '@modules/product-feedback/types/interfaces/product-feedback-entity.interface'
 import { IProductFeedbackRepository } from '@modules/product-feedback/types/interfaces/product-feedback-repository.interface'
-import { IProductFeedbackEntity } from './types/interfaces/product-feedback-entity.interface'
 
 export class ProductFeedbackRepository implements IProductFeedbackRepository {
   constructor(private prisma: PrismaService) {}

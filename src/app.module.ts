@@ -3,7 +3,10 @@ import commonConfig from '@common/config/common.config'
 import { ExceptionsFilter } from '@common/exceptions/exception.filter'
 import { EnvelopeInterceptor } from '@common/interceptors/envelope.interceptor'
 import { PrismaModule } from '@common/prisma/prisma.module'
+import { CommentModule } from '@modules/comment/comment.module'
 import { CsrfModule } from '@modules/csrf/csrf.module'
+import { LikeModule } from '@modules/like/like.module'
+import { ProductFeedbackModule } from '@modules/product-feedback/product-feedback.module'
 import { UserAuthenticatedGuard } from '@modules/user/guards/user-authenticated.guard'
 import { UserModule } from '@modules/user/user.module'
 import { Module, ValidationPipe } from '@nestjs/common'
@@ -22,6 +25,9 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
     }),
     PrismaModule,
     UserModule,
+    ProductFeedbackModule,
+    LikeModule,
+    CommentModule,
     CsrfModule,
   ],
   providers: [

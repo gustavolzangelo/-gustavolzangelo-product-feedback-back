@@ -1,4 +1,4 @@
-import { EnvelopeDTO } from '@common/types/dto/envelope.dto'
+import { _envelopeDTO } from '@common/misc/utils'
 import {
   CallHandler,
   ExecutionContext,
@@ -16,7 +16,7 @@ export class EnvelopeInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       map((data) => {
-        return EnvelopeDTO.build({
+        return _envelopeDTO({
           status: context.switchToHttp().getResponse().statusCode,
           data,
         })

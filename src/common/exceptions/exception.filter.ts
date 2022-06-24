@@ -1,5 +1,4 @@
-import { _get, _isArray } from '@common/misc/utils'
-import { EnvelopeDTO } from '@common/types/dto/envelope.dto'
+import { _envelopeDTO, _get, _isArray } from '@common/misc/utils'
 import { CustomException } from '@common/types/exceptions/custom.exception'
 import {
   ArgumentsHost,
@@ -96,6 +95,6 @@ export class ExceptionsFilter implements ExceptionFilter {
         .clearCookie(this.cookieSignName, cookiesOptions)
     }
 
-    httpArgs.status(status).json(EnvelopeDTO.build({ status, errors: [error] }))
+    httpArgs.status(status).json(_envelopeDTO({ status, errors: [error] }))
   }
 }
