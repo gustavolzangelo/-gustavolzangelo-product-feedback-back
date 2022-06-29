@@ -82,7 +82,7 @@ export class UserController {
   ): Promise<UserJwtDTO> {
     const userJwtDto = await this.userService.login({ userLoginDto })
 
-    res.status(HttpStatus.BAD_REQUEST)
+    res.status(HttpStatus.OK)
     res = this.attachCookiesAccessToken({
       res,
       accessToken: userJwtDto.accessToken,
@@ -126,6 +126,6 @@ export class UserController {
       res.status(HttpStatus.NOT_FOUND)
       return
     }
-    res.status(HttpStatus.BAD_REQUEST)
+    res.status(HttpStatus.OK)
   }
 }
