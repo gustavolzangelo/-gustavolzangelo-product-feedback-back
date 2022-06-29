@@ -126,6 +126,6 @@ export class UserController {
       res.status(HttpStatus.NOT_FOUND)
       return
     }
-    res.status(HttpStatus.OK)
+    res.status(HttpStatus.BAD_REQUEST)
   }
 }
