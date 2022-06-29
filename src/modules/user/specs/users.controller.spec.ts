@@ -38,6 +38,17 @@ const userJwtDto: UserJwtDTO = {
   accessToken: 'string',
 }
 
+const resultSetUserDto = {
+  items: [userDto],
+  pagination: {
+    page: 0,
+    totalPages: 1,
+    itemsInPage: 1,
+    totalItems: 1,
+    itemsPerPage: 5,
+  },
+}
+
 const mockResponse: any = () => {
   const res: Partial<Response> = {}
   res.status = jest.fn().mockReturnValue(res)
@@ -85,7 +96,7 @@ describe('UsersController', () => {
     expect(await userController.create({ ...userCreateDto })).toBe(userDto)
   })
 
-  it('login', async () => {
+  it('login with success', async () => {
     jest
       .spyOn(userService, 'login')
       .mockImplementation(() => Promise.resolve(userJwtDto))
@@ -98,6 +109,7 @@ describe('UsersController', () => {
         password: 'string',
       })
     ).toBe(userJwtDto)
+
     expect(res.status).toHaveBeenCalledWith(HttpStatus.OK)
     expect(res.cookie).toHaveBeenCalledTimes(2)
   })
@@ -105,9 +117,9 @@ describe('UsersController', () => {
   it('get all users', async () => {
     jest
       .spyOn(userService, 'findAll')
-      .mockImplementation(() => Promise.resolve([userDto]))
+      .mockImplementation(() => Promise.resolve(resultSetUserDto))
 
-    expect(await userController.findAll()).toStrictEqual([userDto])
+    expect(await userController.findAll({})).toStrictEqual(resultSetUserDto)
   })
 
   it('update an user successfully', async () => {

@@ -8,21 +8,23 @@ import { AppModule } from './app.module'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
-  app.enableCors()
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
+  })
 
   const config = app.get(ConfigService)
   const isDev = config.get('common.isDev')
-  const isTest = config.get('common.isTest')
 
   const secret = config.get('auth.secret')
-
-  console.log(isTest())
 
   app.use(helmet())
   app.use(cookieParser(secret))
   // !isTest() && app.use(csurf({ cookie: { httpOnly: true, secure: !isDev() } }))
   app.use(morgan(isDev() ? 'dev' : 'tiny'))
-
-  await app.listen(3000)
+  await app.listen(9000)
 }
 bootstrap()
